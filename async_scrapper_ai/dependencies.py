@@ -1,25 +1,13 @@
 from fastapi import Body
 from loguru import logger 
-from typing import Generator 
-from schemas import TextModelRequest, TextModelResponse
+from schemas import TextModelRequest
 from scrapper import extract_urls, fetch_all
-from database import SessionLocal 
-from sqlalchemy.orm import Session
 from uuid import uuid4 
 
-##################################### database session ####################### 
-def get_db()-> Generator[Session, None , None ]: 
-    db = SessionLocal()  ### our database is now  session object
-    try :
-        yield db 
-
-    finally : 
-        db.close() 
-
-    
-# ------------------- URL content  -------------------
+# -------------------  Injecting WebScrapping functionality as dependency in  Fastapi LLM  controller  -------------------
 async def get_urls_content(
     body: TextModelRequest= Body(...),  ), -> str : 
+    """ text model requst is """
 
     logger.info("extract urls")
     urls= extract_urls(body.prompts)
