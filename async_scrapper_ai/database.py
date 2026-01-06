@@ -8,14 +8,15 @@ DATABASE_URL= str(settings.pg_dsn)
 
 logger.info("creating engine and session local")
 engine= create_engine(DATABASE_URL , echo= False)
-SessionLocal= sessionmaker(bind= engine, autocommit= False , autoflash= False)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+###### more database connection to dependencies ############ 
+
+# def get_db():
+#     db = SessionLocal()
+#     try:
+#         yield db
+#     finally:
+#         db.close()
