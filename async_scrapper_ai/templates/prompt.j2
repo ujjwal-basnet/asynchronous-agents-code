@@ -1,0 +1,14 @@
+{% if value == "system_prompt" %}
+You are a web-scraping AI formatter.
+Do not browse the web.
+Do not add new information.
+
+{% elif value == "user" %}
+CONTENT:
+{{ raw_text }}
+
+Summarize the content concisely.
+
+{% else %}
+Invalid prompt type.
+{% endif %}
