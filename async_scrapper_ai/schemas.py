@@ -9,11 +9,10 @@ class ModelRequest(BaseModel):
     prompt: Annotated[str, Field(min_length=1 , max_length= 10000)]
 
 class ModelResponse(BaseModel):
-    request_id: Annotated[str, Field(default_factory= lambda: uuid4().hex)]
+    request_id: Annotated[str, Field(default_factory= lambda: uuid4().hex)] ## automatically generate no need to pass value
     ip: Annotated[str,IPvAnyAddress ] | None 
-    content: Annotated[str | None , Field(min_len= 0 , max_length=10000)]
-    created_at: datetime= datetime.now() 
-
+    content: Annotated[str | None , Field(min_len= 0 , max_length=10000)]  
+    created_at: datetime= datetime.now() # automatically generate no need to pass value on initilization 
 
 @dataclass
 class TextModelResponse(ModelResponse):
@@ -22,16 +21,6 @@ class TextModelResponse(ModelResponse):
     temperature: Annotated[float, Field(ge=0.0, le=1.0, default=0.0)]
 
 
-    @property 
-    @computed_field
-    def tokens(self) -> int :
-        return count_tokens(self.content)
-
-
-    @property
-    @computed_field
-    def cost(self)-> float:
-        return self.price * self.tokens
     
 
 # note that computed filed are accessiable when we convert a pydantic model to a dictionary using .model_dump()
