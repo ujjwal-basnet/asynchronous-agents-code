@@ -2,11 +2,20 @@ from fastapi import Body
 from loguru import logger 
 from schemas import TextModelRequest
 from scrapper import extract_urls, fetch_all
-from uuid import uuid4 
+from database import SessionLocal 
 
+
+# --------------------- open database as dependency -----------------
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+        
 # -------------------  Injecting WebScrapping functionality as dependency in  Fastapi LLM  controller  -------------------
 async def get_urls_content(
-    body: TextModelRequest= Body(...),  ), -> str : 
+    body: TextModelRequest= Body(...))-> str : 
     """ text model requst is """
 
     logger.info("extract urls")
