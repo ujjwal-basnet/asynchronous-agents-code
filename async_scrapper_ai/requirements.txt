@@ -1,0 +1,7 @@
+transformers
+accelerate
+torch
+huggingface_hub
+tiktoken
+pydantic
+pydantic-settings
